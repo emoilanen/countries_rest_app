@@ -1,8 +1,5 @@
-
-
-const SearchField = () => {
-
-	return <></>
+const SearchField = (): JSX.Element => {
+  return <></>;
 };
 
 export default SearchField;

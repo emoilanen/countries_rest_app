@@ -1,8 +1,5 @@
-
-
-const TopPanel = () => {
-
-	return <></>
+const TopPanel = (): any => {
+  return <></>;
 };
 
 export default TopPanel;

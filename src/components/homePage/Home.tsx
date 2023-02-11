@@ -1,13 +1,13 @@
-import CountryList from "./CountryList";
-import TopPanel from "./TopPanel";
+import CountryList from './CountryList';
+import TopPanel from './TopPanel';
 
-
-const Home = () => {
-
-	return <>
-		<TopPanel />
-		<CountryList />
-	</>;
+const Home = (): JSX.Element => {
+  return (
+    <>
+      <TopPanel />
+      <CountryList />
+    </>
+  );
 };
 
 export default Home;
