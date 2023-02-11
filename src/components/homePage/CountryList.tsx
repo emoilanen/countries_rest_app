@@ -13,11 +13,11 @@ import { type ChangeEvent, useState, useEffect, useCallback } from 'react';
 import Pagination from './Pagination';
 import axios from 'axios';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export interface CountryData {
   flag?: string;
-  name?: {
+  name: {
     common: string;
     official: string;
   };
@@ -89,9 +89,9 @@ const CountryList = (): JSX.Element => {
                     </ul>
                   </TableCell>
                   <TableCell align="left">
-                    <IconButton>
+                    <Link to={`/${row.name.common}`} relative="path">
                       <ArrowForwardIosIcon />
-                    </IconButton>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
