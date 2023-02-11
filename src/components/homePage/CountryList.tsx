@@ -15,22 +15,6 @@ import axios from 'axios';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton } from '@mui/material';
 
-const rows = [
-  {
-    flag: 'https://lipunkuva.jpg',
-    name: {
-      common: 'Finland',
-      official: 'Finland'
-    },
-    region: 'Europe',
-    population: 55556464,
-    languages: {
-      fi: 'Finnish',
-      swe: 'Swedish'
-    }
-  }
-];
-
 export interface CountryData {
   flag?: string;
   name?: {
@@ -39,7 +23,7 @@ export interface CountryData {
   };
   region?: string;
   population?: number;
-  languages?: string[];
+  languages?: any;
 }
 
 const CountryList = (): JSX.Element => {
@@ -68,10 +52,10 @@ const CountryList = (): JSX.Element => {
     setPage(newPage);
   }, []);
 
-  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const handleChangeRowsPerPage = useCallback((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
+  }, []);
 
   return (
     <>
@@ -80,11 +64,11 @@ const CountryList = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Flag</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Regions</TableCell>
-              <TableCell align="right">Population</TableCell>
-              <TableCell align="right">Languages</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="left">Regions</TableCell>
+              <TableCell align="left">Population</TableCell>
+              <TableCell align="left">Languages</TableCell>
+              <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,11 +78,17 @@ const CountryList = (): JSX.Element => {
                   <TableCell component="th" scope="row">
                     {row?.flag}
                   </TableCell>
-                  <TableCell align="right">{row?.name?.common}</TableCell>
-                  <TableCell align="right">{row?.region}</TableCell>
-                  <TableCell align="right">{row?.population}</TableCell>
-                  {/**     <TableCell align="right">{row?.languages?.fi}</TableCell> */}
-                  <TableCell align="right">
+                  <TableCell align="left">{row?.name?.common}</TableCell>
+                  <TableCell align="left">{row?.region}</TableCell>
+                  <TableCell align="left">{row?.population}</TableCell>
+                  <TableCell align="left">
+                    <ul>
+                      {Object.entries(row.languages).map(([key]) => {
+                        return <li key={key}>{row.languages[key]}</li>;
+                      })}
+                    </ul>
+                  </TableCell>
+                  <TableCell align="left">
                     <IconButton>
                       <ArrowForwardIosIcon />
                     </IconButton>
@@ -108,7 +98,7 @@ const CountryList = (): JSX.Element => {
           </TableBody>
           <Pagination
             page={page}
-            rows={rows}
+            rows={countryData}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             rowsPerPage={rowsPerPage}
