@@ -25,7 +25,7 @@ const Pagination = ({ rows }: PaginationProps): JSX.Element => {
       <TableRow>
         <TablePagination
           rowsPerPageOptions={[5, 10, 15, { label: 'All', value: -1 }]}
-          colSpan={3}
+          colSpan={6}
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}

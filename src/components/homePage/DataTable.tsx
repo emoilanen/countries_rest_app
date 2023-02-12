@@ -11,6 +11,8 @@ import { CountryContext } from '../../countryContext';
 
 const StyledTableCell = styled(TableCell)`
   font-size: 4em;
+  padding-top: 0px;
+  padding-bottom: 0px;
 `;
 
 export interface DataTableProps {
@@ -36,7 +38,7 @@ const DataTable = ({ data }: DataTableProps): JSX.Element => {
                 })}
             </ul>
           </TableCell>
-          <TableCell align="left">
+          <TableCell align="center">
             <Link to={`/${row.name.common}`} relative="path">
               <ArrowForwardIosIcon />
             </Link>

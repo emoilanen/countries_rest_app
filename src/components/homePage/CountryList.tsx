@@ -14,7 +14,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { CountryContext } from '../../countryContext';
 import DataTable from './DataTable';
 import Pagination from './Pagination';
+import styled from '@emotion/styled';
 
+const StyledTable = styled(Table)`
+  table-layout: fixed;
+  width: 100%;
+  min-width: 650px;
+`;
 export interface CountryData {
   flag?: string;
   name: {
@@ -61,7 +67,7 @@ const CountryList = (): JSX.Element => {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <StyledTable aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Flag</TableCell>
@@ -73,20 +79,12 @@ const CountryList = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {countryData.length > 0 && filteredCountryData.length === 0 && (
-              <>
-                <DataTable data={countryData} />
-                <Pagination rows={countryData} />
-              </>
-            )}
-            {filteredCountryData.length > 0 && (
-              <>
-                <DataTable data={filteredCountryData} />
-                <Pagination rows={filteredCountryData} />
-              </>
-            )}
+            {countryData.length > 0 && filteredCountryData.length === 0 && <DataTable data={countryData} />}
+            {filteredCountryData.length > 0 && <DataTable data={filteredCountryData} />}
           </TableBody>
-        </Table>
+          {countryData.length > 0 && filteredCountryData.length === 0 && <Pagination rows={countryData} />}
+          {filteredCountryData.length > 0 && <Pagination rows={filteredCountryData} />}
+        </StyledTable>
       </TableContainer>
     </>
   );

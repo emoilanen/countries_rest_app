@@ -8,6 +8,9 @@ const StyledInput = styled(Input)`
   background-color: #fff;
   opacity: 0.2;
   border-radius: 3px;
+  font-size: 12px;
+  padding: 5px;
+  width: 200px;
 `;
 
 const SearchField = (): JSX.Element => {
