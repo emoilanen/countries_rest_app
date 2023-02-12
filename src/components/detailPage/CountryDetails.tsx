@@ -28,7 +28,9 @@ const CountryDetails = (): JSX.Element => {
           lat: data.latlng[0],
           lon: data.latlng[1],
           independent: data.independent,
-          population: data.population
+          population: data.population,
+          flag: data.flags.png,
+          capital: data.capital[0]
         };
         setCountryData(country);
       });
@@ -39,7 +41,7 @@ const CountryDetails = (): JSX.Element => {
 
   return (
     <>
-      <CountryTopPanel />
+      <CountryTopPanel country={name ?? ''} capital={countryData.capital} />
       <CountryDescription
         region={countryData?.region}
         subRegion={countryData?.subRegion}
@@ -47,6 +49,7 @@ const CountryDetails = (): JSX.Element => {
         lon={countryData.lon}
         population={countryData.population}
         independent={countryData.independent}
+        flag={countryData.flag}
       />
     </>
   );

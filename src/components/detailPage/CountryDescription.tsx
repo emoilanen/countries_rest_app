@@ -6,6 +6,7 @@ export interface CountryDescriptionProps {
   lon: number;
   population: number;
   independent: boolean;
+  flag: string;
 }
 
 const CountryDescription = ({
@@ -14,10 +15,12 @@ const CountryDescription = ({
   lat,
   lon,
   population,
-  independent = false
+  independent = false,
+  flag
 }: CountryDescriptionProps): JSX.Element => {
   return (
     <>
+      <img src={flag} alt="flag" />
       <p>
         The country belongs to {region} region and {subRegion} sub-region. Located at the {lat} °N and {lon} °W, this
         country has population of {population}
