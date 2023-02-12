@@ -1,19 +1,19 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/member-delimiter-style */
-import * as React from 'react';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { type ChangeEvent, useState, useEffect, useCallback } from 'react';
-import Pagination from './Pagination';
 import axios from 'axios';
-import { SearchContext } from '../../searchContext';
+import * as React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { CountryContext } from '../../countryContext';
 import DataTable from './DataTable';
+import Pagination from './Pagination';
 
 export interface CountryData {
   flag?: string;
@@ -27,12 +27,10 @@ export interface CountryData {
 }
 
 const CountryList = (): JSX.Element => {
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [countryData, setCountryData] = useState<CountryData[]>([]);
   const [filteredCountryData, setFilteredCountryData] = useState<CountryData[]>([]);
 
-  const { searchedCountry } = React.useContext(SearchContext);
+  const { searchedCountry } = React.useContext(CountryContext);
 
   useEffect(() => {
     if (countryData.length > 0) {
@@ -60,15 +58,6 @@ const CountryList = (): JSX.Element => {
     }
   }, []);
 
-  const handleChangePage = useCallback((newPage: number): void => {
-    setPage(newPage);
-  }, []);
-
-  const handleChangeRowsPerPage = useCallback((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  }, []);
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -84,19 +73,19 @@ const CountryList = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {countryData.length > 0 && filteredCountryData.length === 0 ? (
-              <DataTable data={countryData} page={page} rowsPerPage={rowsPerPage} />
-            ) : (
-              <DataTable data={filteredCountryData} page={page} rowsPerPage={rowsPerPage} />
+            {countryData.length > 0 && filteredCountryData.length === 0 && (
+              <>
+                <DataTable data={countryData} />
+                <Pagination rows={countryData} />
+              </>
+            )}
+            {filteredCountryData.length > 0 && (
+              <>
+                <DataTable data={filteredCountryData} />
+                <Pagination rows={filteredCountryData} />
+              </>
             )}
           </TableBody>
-          <Pagination
-            page={page}
-            rows={filteredCountryData.length > 0 ? filteredCountryData : countryData}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-            rowsPerPage={rowsPerPage}
-          />
         </Table>
       </TableContainer>
     </>

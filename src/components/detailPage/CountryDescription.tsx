@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/member-delimiter-style */
-
 import styled from '@emotion/styled';
 
 const Highlight = styled.span`

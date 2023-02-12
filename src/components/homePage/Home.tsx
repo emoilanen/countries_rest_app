@@ -1,17 +1,21 @@
 import CountryList from './CountryList';
 import TopPanel from './TopPanel';
-import { SearchContext } from '../../searchContext';
+import { CountryContext } from '../../countryContext';
 import { useState } from 'react';
 
 const Home = (): JSX.Element => {
   const [searchedCountry, setSearchedCountry] = useState('');
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
   return (
     <>
-      <SearchContext.Provider value={{ searchedCountry, setSearchedCountry }}>
+      <CountryContext.Provider
+        value={{ searchedCountry, setSearchedCountry, page, setPage, rowsPerPage, setRowsPerPage }}
+      >
         <TopPanel />
         <CountryList />
-      </SearchContext.Provider>
+      </CountryContext.Provider>
     </>
   );
 };

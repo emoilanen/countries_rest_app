@@ -1,21 +1,25 @@
 /* eslint-disable @typescript-eslint/member-delimiter-style */
 import { TableFooter, TableRow, TablePagination } from '@mui/material';
+import TablePaginationActions from './TablePaginationActions';
+import { useContext, useCallback, type ChangeEvent } from 'react';
+import { CountryContext } from '../../countryContext';
 
 export interface PaginationProps {
   rows: any[];
-  handleChangeRowsPerPage: any;
-  handleChangePage: any;
-  page: number;
-  rowsPerPage: number;
 }
 
-const Pagination = ({
-  page,
-  rows,
-  handleChangeRowsPerPage,
-  handleChangePage,
-  rowsPerPage
-}: PaginationProps): JSX.Element => {
+const Pagination = ({ rows }: PaginationProps): JSX.Element => {
+  const { setPage, setRowsPerPage, page, rowsPerPage } = useContext(CountryContext);
+
+  const handleChangePage = useCallback((event: React.MouseEvent<HTMLButtonElement> | null, newPage: number): void => {
+    setPage(newPage);
+  }, []);
+
+  const handleChangeRowsPerPage = useCallback((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  }, []);
+
   return (
     <TableFooter>
       <TableRow>
@@ -33,6 +37,7 @@ const Pagination = ({
           }}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          ActionsComponent={TablePaginationActions}
         />
       </TableRow>
     </TableFooter>

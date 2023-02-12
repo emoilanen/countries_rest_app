@@ -8,8 +8,6 @@ const App = (): JSX.Element => {
     <Routes>
       <Route path="/" index element={<Home />} />
       <Route path=":name" element={<CountryDetails />} />
-
-      {/** <Route path="*" element={<NoMatch />} /> */}
     </Routes>
   );
 };
