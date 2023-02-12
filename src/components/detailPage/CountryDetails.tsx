@@ -6,6 +6,12 @@ import { useEffect, useCallback, useState } from 'react';
 import { useParams } from 'react-router';
 import CountryTopPanel from './CountryTopPanel';
 import CountryDescription from './CountryDescription';
+import styled from '@emotion/styled';
+
+export const Container = styled.div`
+  margin: 20px;
+  max-width: 650px;
+`;
 
 const CountryDetails = (): JSX.Element => {
   const { name } = useParams();
@@ -29,7 +35,7 @@ const CountryDetails = (): JSX.Element => {
           lon: data.latlng[1],
           independent: data.independent,
           population: data.population,
-          flag: data.flags.png,
+          flag: data.flags.svg,
           capital: data.capital[0]
         };
         setCountryData(country);
@@ -40,7 +46,7 @@ const CountryDetails = (): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <Container>
       <CountryTopPanel country={name ?? ''} capital={countryData.capital} />
       <CountryDescription
         region={countryData?.region}
@@ -51,7 +57,7 @@ const CountryDetails = (): JSX.Element => {
         independent={countryData.independent}
         flag={countryData.flag}
       />
-    </>
+    </Container>
   );
 };
 

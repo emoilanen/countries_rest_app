@@ -4,6 +4,11 @@ import { TableRow, TableCell } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { type CountryData } from './CountryList';
+import styled from '@emotion/styled';
+
+const StyledTableCell = styled(TableCell)`
+  font-size: 4em;
+`;
 
 export interface DataTableProps {
   data: CountryData[];
@@ -16,9 +21,7 @@ const DataTable = ({ data, page, rowsPerPage }: DataTableProps): JSX.Element => 
     <>
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row): any => (
         <TableRow key={row?.name?.common} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-          <TableCell component="th" scope="row">
-            {row?.flag}
-          </TableCell>
+          <StyledTableCell>{row?.flag}</StyledTableCell>
           <TableCell align="left">{row?.name?.common}</TableCell>
           <TableCell align="left">{row?.region}</TableCell>
           <TableCell align="left">{row?.population}</TableCell>
