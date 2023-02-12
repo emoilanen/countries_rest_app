@@ -1,6 +1,6 @@
 # Countries REST-API app
 
-This app fetches country data from restcountries.com -service.
+This app fetches country data from restcountries.com -service. you can access the application at: https://countries-rest-app.vercel.app/
 
 **Techniques used :** React, Typescript, Material UI, @emotion/styled, React router
 
