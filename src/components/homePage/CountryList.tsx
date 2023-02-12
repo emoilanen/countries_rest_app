@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/member-delimiter-style */
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/member-delimiter-style */
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,8 +12,8 @@ import Paper from '@mui/material/Paper';
 import { type ChangeEvent, useState, useEffect, useCallback } from 'react';
 import Pagination from './Pagination';
 import axios from 'axios';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Link } from 'react-router-dom';
+import { SearchContext } from '../../searchContext';
+import DataTable from './DataTable';
 
 export interface CountryData {
   flag?: string;
@@ -30,6 +30,18 @@ const CountryList = (): JSX.Element => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [countryData, setCountryData] = useState<CountryData[]>([]);
+  const [filteredCountryData, setFilteredCountryData] = useState<CountryData[]>([]);
+
+  const { searchedCountry } = React.useContext(SearchContext);
+
+  useEffect(() => {
+    if (countryData.length > 0) {
+      const data = countryData.filter((country) =>
+        country.name.common.toLowerCase().includes(searchedCountry.toLowerCase())
+      );
+      setFilteredCountryData(data);
+    }
+  }, [searchedCountry]);
 
   useEffect(() => {
     (async () => {
@@ -48,7 +60,7 @@ const CountryList = (): JSX.Element => {
     }
   }, []);
 
-  const handleChangePage = useCallback((event: any, newPage: number): void => {
+  const handleChangePage = useCallback((newPage: number): void => {
     setPage(newPage);
   }, []);
 
@@ -72,33 +84,15 @@ const CountryList = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {countryData.length > 0 &&
-              countryData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                <TableRow key={row?.name?.common} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {row?.flag}
-                  </TableCell>
-                  <TableCell align="left">{row?.name?.common}</TableCell>
-                  <TableCell align="left">{row?.region}</TableCell>
-                  <TableCell align="left">{row?.population}</TableCell>
-                  <TableCell align="left">
-                    <ul>
-                      {Object.entries(row.languages).map(([key]) => {
-                        return <li key={key}>{row.languages[key]}</li>;
-                      })}
-                    </ul>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Link to={`/${row.name.common}`} relative="path">
-                      <ArrowForwardIosIcon />
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {countryData.length > 0 && filteredCountryData.length === 0 ? (
+              <DataTable data={countryData} page={page} rowsPerPage={rowsPerPage} />
+            ) : (
+              <DataTable data={filteredCountryData} page={page} rowsPerPage={rowsPerPage} />
+            )}
           </TableBody>
           <Pagination
             page={page}
-            rows={countryData}
+            rows={filteredCountryData.length > 0 ? filteredCountryData : countryData}
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
             rowsPerPage={rowsPerPage}
